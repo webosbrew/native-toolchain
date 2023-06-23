@@ -10,5 +10,5 @@ ExternalProject_Add(binutils DEPENDS sysroot
             --disable-werror --target=${BUILDROOT_TRIPLE} --disable-shared --enable-static --with-sysroot=${SYSROOT}
             --enable-poison-system-directories --without-debuginfod --enable-plugins --enable-lto --disable-sim
             --disable-gdb --enable-gold  --disable-gprofng
-        BUILD_COMMAND make
+        BUILD_COMMAND make -j${NPROC}
         INSTALL_COMMAND make install)
