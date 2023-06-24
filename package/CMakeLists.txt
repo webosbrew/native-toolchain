@@ -11,9 +11,18 @@ endfunction()
 include(ProcessorCount)
 ProcessorCount(NPROC)
 
+add_subdirectory(gperf)
+add_subdirectory(m4)
+add_subdirectory(autoconf)
+add_subdirectory(autoconf-archive)
+add_subdirectory(automake)
+
 add_subdirectory(gmp)
 add_subdirectory(mpfr)
 add_subdirectory(mpc)
 add_subdirectory(isl)
+add_subdirectory(libtool)
+
 add_subdirectory(binutils)
 add_subdirectory(gcc)
+add_subdirectory(pkgconf)

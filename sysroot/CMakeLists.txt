@@ -1,11 +1,13 @@
-set(TARBALL_NAME "${BUILDROOT_TRIPLE}_sdk-buildroot")
-
-set(PREFIX ${BUILDROOT_PORT_PREFIX})
+set(PREFIX ${HOST_DIR})
+set(SYSROOT "${PREFIX}/${GNU_TARGET_NAME}/sysroot")
 
 ExternalProject_Add(sysroot
-        URL "https://github.com/openlgtv/buildroot-nc4/releases/download/${BUILDROOT_RELEASE}/${TARBALL_NAME}.tar.gz"
+        URL "https://github.com/openlgtv/buildroot-nc4/releases/download/${BUILDROOT_RELEASE}/${BUILDROOT_SDK_NAME}.tar.gz"
         DOWNLOAD_NO_EXTRACT TRUE
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
-        INSTALL_COMMAND ${CMAKE_COMMAND} -E tar xf <DOWNLOADED_FILE> "${TARBALL_NAME}/${BUILDROOT_TRIPLE}/sysroot"
-            COMMAND ${CMAKE_COMMAND} -E rename "${TARBALL_NAME}/${BUILDROOT_TRIPLE}" "${PREFIX}/${BUILDROOT_TRIPLE}")
+        INSTALL_COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_BINARY_DIR} tar xf <DOWNLOADED_FILE>
+                "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot"
+                "${BUILDROOT_SDK_NAME}/share/buildroot"
+                "${BUILDROOT_SDK_NAME}/relocate-sdk.sh"
+            COMMAND "${HOST_DIR}/relocate-sdk.sh")

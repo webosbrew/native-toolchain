@@ -1,10 +1,12 @@
 br_get_var("package/gmp/gmp.mk" GMP_VERSION GMP_VERSION)
 
-set(PREFIX ${BUILDROOT_PORT_PREFIX})
+ExternalProject_Get_Property(m4 INSTALL_DIR)
+set(M4_INSTALL_DIR ${INSTALL_DIR})
 
-ExternalProject_Add(gmp
+ExternalProject_Add(gmp DEPENDS m4
         URL "${GCC_MIRROR}/infrastructure/gmp-${GMP_VERSION}.tar.bz2"
-        DOWNLOAD_EXTRACT_TIMESTAMP FALSE
-        CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${PREFIX} --sysconfdir=${PREFIX}/etc
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
+            M4=${M4_INSTALL_DIR}/bin/m4
         BUILD_COMMAND make -j${NPROC}
         INSTALL_COMMAND make install)

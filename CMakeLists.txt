@@ -8,14 +8,18 @@ endif ()
 
 set(CMAKE_C_STANDARD 11)
 
-set(BUILDROOT_RELEASE "webos-71307ba")
 string(REGEX REPLACE ".*-" "" BUILDROOT_BUILD_ID "${BUILDROOT_RELEASE}")
-set(BUILDROOT_TRIPLE "arm-webos-linux-gnueabi")
+set(GNU_TARGET_NAME "arm-webos-linux-gnueabi")
 
-set(BUILDROOT_PORT_PREFIX "${CMAKE_BINARY_DIR}/br-prefix")
+set(BUILDROOT_RELEASE "webos-71307ba")
+set(BUILDROOT_SDK_NAME "${GNU_TARGET_NAME}_sdk-buildroot")
+
+set(HOST_DIR "${CMAKE_BINARY_DIR}/${BUILDROOT_SDK_NAME}")
 set(BUILDROOT_PORT_DOWNLOADS "${CMAKE_BINARY_DIR}/downloads")
 
 set(GCC_MIRROR "http://ftp.tsukuba.wide.ad.jp/software/gcc")
+
+set(CMAKE_INSTALL_PREFIX ${HOST_DIR})
 
 if (NOT DEFINED CMAKE_C_COMPILER_TARGET)
     execute_process(COMMAND "${CMAKE_C_COMPILER}" "-v" ERROR_VARIABLE GCC_VERSION_INFO)
