@@ -8,5 +8,10 @@ ExternalProject_Add(autoconf-archive DEPENDS autoconf m4
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             AUTOCONF=${AUTOCONF_INSTALL_DIR}/bin/autoconf AUTOHEADER=${AUTOCONF_INSTALL_DIR}/bin/autoheader
-        BUILD_COMMAND make
-        INSTALL_COMMAND make install)
+        BUILD_COMMAND $(MAKE)
+        INSTALL_COMMAND $(MAKE) install)
+
+ExternalProject_Get_Property(autoconf-archive INSTALL_DIR)
+
+install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${HOST_DIR} USE_SOURCE_PERMISSIONS
+        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)

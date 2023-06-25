@@ -11,8 +11,14 @@ ExternalProject_Add(pkgconf DEPENDS autoconf automake sysroot
         PATCH_COMMAND ${PKGCONF_PATCH_COMMANDS}
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             --with-sysroot=${SYSROOT}
-        BUILD_COMMAND make
-        INSTALL_COMMAND make install
-#            COMMAND ${CMAKE_COMMAND} -DGNU_TARGET_NAME=${GNU_TARGET_NAME} -DBR_SOURCE_DIR=${buildroot-nc4_SOURCE_DIR}
-#                -DPREFIX=${PREFIX} -P ${CMAKE_CURRENT_SOURCE_DIR}/pkg-config.cmake
+        BUILD_COMMAND $(MAKE)
+        INSTALL_COMMAND $(MAKE) install
         )
+
+ExternalProject_Get_Property(pkgconf INSTALL_DIR)
+
+install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${HOST_DIR} USE_SOURCE_PERMISSIONS
+        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)
+install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -DGNU_TARGET_NAME=${GNU_TARGET_NAME}
+    -DBR_SOURCE_DIR=${buildroot-nc4_SOURCE_DIR} -DHOST_DIR=${HOST_DIR}
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/pkg-config.cmake)")

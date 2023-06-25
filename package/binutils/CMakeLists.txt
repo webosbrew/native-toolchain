@@ -8,6 +8,11 @@ ExternalProject_Add(binutils DEPENDS sysroot
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc --disable-multilib
             --disable-werror --target=${GNU_TARGET_NAME} --disable-shared --enable-static --with-sysroot=${SYSROOT}
             --enable-poison-system-directories --without-debuginfod --enable-plugins --enable-lto --disable-sim
-            --disable-gdb --enable-gold  --disable-gprofng MAKEINFO=true
-        BUILD_COMMAND make -j${NPROC} MAKEINFO=true
-        INSTALL_COMMAND make install MAKEINFO=true)
+            --disable-gdb --enable-gold  --disable-gprofng
+        BUILD_COMMAND $(MAKE) MAKEINFO=true
+        INSTALL_COMMAND $(MAKE) install MAKEINFO=true)
+
+ExternalProject_Get_Property(binutils INSTALL_DIR)
+
+install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${HOST_DIR} USE_SOURCE_PERMISSIONS
+        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)

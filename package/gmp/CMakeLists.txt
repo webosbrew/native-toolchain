@@ -8,5 +8,10 @@ ExternalProject_Add(gmp DEPENDS m4
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             M4=${M4_INSTALL_DIR}/bin/m4
-        BUILD_COMMAND make -j${NPROC}
-        INSTALL_COMMAND make install)
+        BUILD_COMMAND $(MAKE)
+        INSTALL_COMMAND $(MAKE) install)
+
+ExternalProject_Get_Property(gmp INSTALL_DIR)
+
+install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${HOST_DIR} USE_SOURCE_PERMISSIONS
+        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)

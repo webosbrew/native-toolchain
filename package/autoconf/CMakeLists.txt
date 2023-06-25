@@ -12,5 +12,10 @@ ExternalProject_Add(autoconf DEPENDS m4
         PATCH_COMMAND ${AUTOCONF_PATCH_COMMANDS}
         CONFIGURE_COMMAND EMACS="no" ac_cv_path_M4=${M4_INSTALL_DIR}/bin/m4 ac_cv_prog_gnu_m4_gnu=no
             <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
-        BUILD_COMMAND make
-        INSTALL_COMMAND make install)
+        BUILD_COMMAND $(MAKE)
+        INSTALL_COMMAND $(MAKE) install)
+
+ExternalProject_Get_Property(autoconf INSTALL_DIR)
+
+install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${HOST_DIR} USE_SOURCE_PERMISSIONS
+        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)

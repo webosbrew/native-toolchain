@@ -8,9 +8,6 @@ function(br_get_var PATH VAR OUT_VAR)
     set(${OUT_VAR} "${VAR_VALUE}" PARENT_SCOPE)
 endfunction()
 
-include(ProcessorCount)
-ProcessorCount(NPROC)
-
 add_subdirectory(gperf)
 add_subdirectory(m4)
 add_subdirectory(autoconf)

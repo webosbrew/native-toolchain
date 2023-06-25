@@ -4,5 +4,10 @@ ExternalProject_Add(gperf
         URL "https://ftp.gnu.org/gnu/gperf/gperf-${GPERF_VERSION}.tar.gz"
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
-        BUILD_COMMAND make
-        INSTALL_COMMAND make install)
+        BUILD_COMMAND $(MAKE)
+        INSTALL_COMMAND $(MAKE) install)
+
+ExternalProject_Get_Property(gperf INSTALL_DIR)
+
+install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${HOST_DIR} USE_SOURCE_PERMISSIONS
+        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)

@@ -8,8 +8,10 @@ ExternalProject_Add(libtool DEPENDS autoconf m4
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             M4=${M4_INSTALL_DIR}/bin/m4 MAKEINFO=true
-        BUILD_COMMAND make
-        INSTALL_COMMAND make install)
+        BUILD_COMMAND $(MAKE)
+        INSTALL_COMMAND $(MAKE) install)
 
-set(LIBTOOL ${HOST_DIR}/bin/libtool PARENT_SCOPE)
-set(LIBTOOLIZE ${HOST_DIR}/bin/libtoolize PARENT_SCOPE)
+ExternalProject_Get_Property(libtool INSTALL_DIR)
+
+install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${HOST_DIR} USE_SOURCE_PERMISSIONS
+        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)
