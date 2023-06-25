@@ -8,7 +8,7 @@ ExternalProject_Add(m4 DEPENDS gperf
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc --disable-nls
         BUILD_COMMAND $(MAKE) GPERF=${GPERF_INSTALL_DIR}/bin/gperf HELP2MAN=true
-        INSTALL_COMMAND $(MAKE) install HELP2MAN=true)
+        INSTALL_COMMAND $(MAKE) install-strip HELP2MAN=true)
 
 ExternalProject_Get_Property(m4 INSTALL_DIR)
 

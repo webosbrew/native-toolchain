@@ -13,7 +13,7 @@ ExternalProject_Add(gawk DEPENDS mpfr
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             --with-mpfr=${MPFR_INSTALL_DIR}
         BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install)
+        INSTALL_COMMAND $(MAKE) install-strip)
 
 ExternalProject_Get_Property(gawk INSTALL_DIR)
 

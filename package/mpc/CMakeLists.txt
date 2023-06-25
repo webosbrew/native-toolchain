@@ -12,7 +12,7 @@ ExternalProject_Add(mpc DEPENDS gmp mpfr
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             --with-gmp=${GMP_INSTALL_DIR} --with-mpfr=${MPFR_INSTALL_DIR}
         BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install)
+        INSTALL_COMMAND $(MAKE) install-strip)
 
 ExternalProject_Get_Property(mpc INSTALL_DIR)
 

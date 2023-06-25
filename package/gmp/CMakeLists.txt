@@ -9,7 +9,7 @@ ExternalProject_Add(gmp DEPENDS m4
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             M4=${M4_INSTALL_DIR}/bin/m4
         BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install)
+        INSTALL_COMMAND $(MAKE) install-strip)
 
 ExternalProject_Get_Property(gmp INSTALL_DIR)
 

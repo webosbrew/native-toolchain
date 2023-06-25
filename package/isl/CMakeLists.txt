@@ -9,7 +9,7 @@ ExternalProject_Add(isl DEPENDS gmp
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             --with-gmp-prefix=${GMP_INSTALL_DIR}
         BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install)
+        INSTALL_COMMAND $(MAKE) install-strip)
 
 ExternalProject_Get_Property(isl INSTALL_DIR)
 

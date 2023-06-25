@@ -10,7 +10,7 @@ ExternalProject_Add(binutils DEPENDS sysroot
             --enable-poison-system-directories --without-debuginfod --enable-plugins --enable-lto --disable-sim
             --disable-gdb --enable-gold  --disable-gprofng
         BUILD_COMMAND $(MAKE) MAKEINFO=true
-        INSTALL_COMMAND $(MAKE) install MAKEINFO=true)
+        INSTALL_COMMAND $(MAKE) install-strip MAKEINFO=true)
 
 ExternalProject_Get_Property(binutils INSTALL_DIR)
 

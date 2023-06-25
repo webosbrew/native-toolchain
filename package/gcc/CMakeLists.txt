@@ -34,9 +34,7 @@ ExternalProject_Add(gcc DEPENDS sysroot binutils gmp mpc mpfr isl m4
         --with-float=softfp --with-mode=arm --enable-languages=c,c++
         --with-build-time-tools=${BINUTILS_INSTALL_DIR}/${GNU_TARGET_NAME}/bin --enable-shared --disable-libgomp
         BUILD_COMMAND $(MAKE) MAKEINFO=true
-        INSTALL_COMMAND $(MAKE) install MAKEINFO=true
-#            COMMAND ${CMAKE_COMMAND} -DBINDIR=${PREFIX}/bin -DGNU_TARGET_NAME=${GNU_TARGET_NAME}
-#                -P ${CMAKE_CURRENT_SOURCE_DIR}/install_bin.cmake
+        INSTALL_COMMAND $(MAKE) install-strip MAKEINFO=true
         )
 
 ExternalProject_Get_Property(gcc INSTALL_DIR)

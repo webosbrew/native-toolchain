@@ -13,7 +13,7 @@ ExternalProject_Add(autoconf DEPENDS m4
         CONFIGURE_COMMAND EMACS="no" ac_cv_path_M4=${M4_INSTALL_DIR}/bin/m4 ac_cv_prog_gnu_m4_gnu=no
             <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
         BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install)
+        INSTALL_COMMAND $(MAKE) install-strip)
 
 ExternalProject_Get_Property(autoconf INSTALL_DIR)
 
