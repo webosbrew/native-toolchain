@@ -9,5 +9,6 @@ ExternalProject_Add(sysroot
         INSTALL_COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_BINARY_DIR} tar xf <DOWNLOADED_FILE>
                 "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot"
                 "${BUILDROOT_SDK_NAME}/share/buildroot"
+                "${BUILDROOT_SDK_NAME}/environment-setup"
                 "${BUILDROOT_SDK_NAME}/relocate-sdk.sh"
             COMMAND "${HOST_DIR}/relocate-sdk.sh")
