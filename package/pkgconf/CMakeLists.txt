@@ -18,6 +18,9 @@ ExternalProject_Get_Property(pkgconf INSTALL_DIR)
 
 install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE_PERMISSIONS
         PATTERN src EXCLUDE PATTERN tmp EXCLUDE)
-install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -DGNU_TARGET_NAME=${GNU_TARGET_NAME}
-    -DBR_SOURCE_DIR=${buildroot-nc4_SOURCE_DIR} -DHOST_DIR=${HOST_DIR}
-    -P ${CMAKE_CURRENT_SOURCE_DIR}/pkg-config.cmake)")
+
+set(STAGING_SUBDIR "${GNU_TARGET_NAME}/sysroot")
+set(STATIC "")
+
+configure_file(${BR_SOURCE_DIR}/package/pkgconf/pkg-config.in ${CMAKE_CURRENT_BINARY_DIR}/pkg-config @ONLY)
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/pkg-config DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
