@@ -27,6 +27,9 @@ jobs:
   
     - name: Install MacPorts
       run: sudo installer -pkg /tmp/MacPorts-*.pkg -target /
+
+    - name: Add MacPorts to PATH
+      run: echo "/opt/local/bin:/opt/local/sbin" >> $GITHUB_PATH
       
     - name: Install CMake and GCC
       run: sudo port install cmake gcc12 gcc_select
@@ -35,7 +38,10 @@ jobs:
       run: sudo port select --set gcc mp-gcc12
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_C_COMPILER=/opt/local/bin/gcc -DCMAKE_CXX_COMPILER=/opt/local/bin/g++
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      env:
+        CC: '/opt/local/bin/gcc'
+        CXX: '/opt/local/bin/g++'
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
