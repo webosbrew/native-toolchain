@@ -10,5 +10,5 @@ ExternalProject_Add(sysroot
                 "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot"
                 "${BUILDROOT_SDK_NAME}/share/buildroot"
                 "${BUILDROOT_SDK_NAME}/environment-setup"
-                "${BUILDROOT_SDK_NAME}/relocate-sdk.sh"
+                "${BUILDROOT_SDK_NAME}/relocate-sdk.sh" || true
             COMMAND "${HOST_DIR}/relocate-sdk.sh")
