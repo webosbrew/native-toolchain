@@ -5,6 +5,9 @@ project(buildroot_ports C)
 if (NOT CMAKE_C_COMPILER_ID STREQUAL "GNU")
     message(FATAL_ERROR "To build the toolchain, you'll need GCC on your machine")
 endif ()
+if (NOT "$ENV{LANG}" STREQUAL "en_US.UTF-8")
+    message(FATAL_ERROR "Please set LANG environment variable to `en_US.UTF-8`")
+endif ()
 
 set(CMAKE_C_STANDARD 11)
 
