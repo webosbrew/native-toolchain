@@ -22,5 +22,5 @@ install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE
 set(STAGING_SUBDIR "${GNU_TARGET_NAME}/sysroot")
 set(STATIC "")
 
-configure_file(${BR_SOURCE_DIR}/package/pkgconf/pkg-config.in ${CMAKE_CURRENT_BINARY_DIR}/pkg-config @ONLY)
+configure_file(${buildroot-nc4_SOURCE_DIR}/package/pkgconf/pkg-config.in ${CMAKE_CURRENT_BINARY_DIR}/pkg-config @ONLY)
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/pkg-config DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
