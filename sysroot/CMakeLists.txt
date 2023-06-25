@@ -11,4 +11,5 @@ ExternalProject_Add(sysroot
                 "${BUILDROOT_SDK_NAME}/share/buildroot"
                 "${BUILDROOT_SDK_NAME}/environment-setup"
                 "${BUILDROOT_SDK_NAME}/relocate-sdk.sh" || true
+            COMMAND patch ${HOST_DIR}/relocate-sdk.sh "${CMAKE_CURRENT_SOURCE_DIR}/relocate-sdk.patch"
             COMMAND "${HOST_DIR}/relocate-sdk.sh")

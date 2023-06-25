@@ -1,0 +1,16 @@
+diff --git a/relocate-sdk.sh b/relocate-sdk.sh
+--- a/relocate-sdk.sh	(date 1687254851000)
++++ b/relocate-sdk.sh	(date 1687703200191)
+@@ -43,10 +43,10 @@
+ grep -lr "${OLDPATH}" . | while read -r FILE ; do
+     if file -b --mime-type "${FILE}" | grep -q '^text/' && [ "${FILE}" != "${LOCFILE}" ]
+     then
+-        sed -i "s|${OLDPATH}|${NEWPATH}|g" "${FILE}"
++        sed -i"" "s|${OLDPATH}|${NEWPATH}|g" "${FILE}"
+     fi
+ done
+ 
+ # At the very end, we update the location file to not break the
+ # SDK if this script gets interruted.
+-sed -i "s|${OLDPATH}|${NEWPATH}|g" ${LOCFILE}
++sed -i"" "s|${OLDPATH}|${NEWPATH}|g" ${LOCFILE}
