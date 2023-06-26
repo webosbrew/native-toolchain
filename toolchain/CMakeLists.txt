@@ -17,5 +17,5 @@ install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -DBINDIR=${CMAKE_INSTALL_
 
 if (APPLE OR BSD)
     install(CODE "execute_process(COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/fix-rpath.macos.sh
-        ${CMAKE_STAGING_PREFIX}/lib)")
+        ${CMAKE_STAGING_PREFIX}/lib WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX})")
 endif ()
