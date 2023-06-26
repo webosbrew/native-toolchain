@@ -10,7 +10,7 @@ env:
 
 jobs:
   macos-x86_64:
-    name: Build for macOS x86_64
+    name: macOS x86_64
     runs-on: macos-12
 
     steps:
@@ -50,4 +50,16 @@ jobs:
       run: cmake --install ${{github.workspace}}/build
 
     - name: Make Tarball
-      run: cmake -E tar cf arm-webos-linux-gnueabi_sdk-buildroot.tar.bz2 arm-webos-linux-gnueabi_sdk-buildroot
+      run: cmake -E tar cjvf arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2 arm-webos-linux-gnueabi_sdk-buildroot
+      working-directory: ${{github.workspace}}/build
+
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: Release ${{ steps.tagName.outputs.tag }}
+        allowUpdates: true
+        omitNameDuringUpdate: true
+        omitBodyDuringUpdate: true
+        omitPrereleaseDuringUpdate: true
+        artifacts: build/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
