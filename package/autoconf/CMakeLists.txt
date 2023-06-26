@@ -7,7 +7,8 @@ ExternalProject_Get_Property(m4 INSTALL_DIR)
 set(M4_INSTALL_DIR ${INSTALL_DIR})
 
 ExternalProject_Add(autoconf DEPENDS m4
-        URL "https://ftp.gnu.org/gnu/autoconf/autoconf-${AUTOCONF_VERSION}.tar.xz"
+        INSTALL_DIR "${CMAKE_STAGING_PREFIX}"
+        URL "${GNU_MIRROR}/autoconf/autoconf-${AUTOCONF_VERSION}.tar.xz"
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         PATCH_COMMAND ${AUTOCONF_PATCH_COMMANDS}
         CONFIGURE_COMMAND EMACS="no" ac_cv_path_M4=${M4_INSTALL_DIR}/bin/m4 ac_cv_prog_gnu_m4_gnu=no
@@ -16,6 +17,3 @@ ExternalProject_Add(autoconf DEPENDS m4
         INSTALL_COMMAND $(MAKE) install-strip)
 
 ExternalProject_Get_Property(autoconf INSTALL_DIR)
-
-install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE_PERMISSIONS
-        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)

@@ -7,17 +7,15 @@ ExternalProject_Get_Property(autoconf INSTALL_DIR)
 set(AUTOCONF_INSTALL_DIR ${INSTALL_DIR})
 
 ExternalProject_Add(automake DEPENDS autoconf autoconf-archive
-        URL "https://ftp.gnu.org/gnu/automake/automake-${AUTOMAKE_VERSION}.tar.xz"
+        INSTALL_DIR "${CMAKE_STAGING_PREFIX}"
+        URL "${GNU_MIRROR}/automake/automake-${AUTOMAKE_VERSION}.tar.xz"
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         PATCH_COMMAND ${AUTOMAKE_PATCH_COMMANDS}
         CONFIGURE_COMMAND
-            COMMAND ${CMAKE_COMMAND} -E make_directory ${HOST_DIR}/share/aclocal
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_STAGING_PREFIX}/share/aclocal
             COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
                 AUTOCONF=${AUTOCONF_INSTALL_DIR}/bin/autoconf AUTOHEADER=${AUTOCONF_INSTALL_DIR}/bin/autoheader
         BUILD_COMMAND $(MAKE)
         INSTALL_COMMAND $(MAKE) install-strip)
 
 ExternalProject_Get_Property(automake INSTALL_DIR)
-
-install(DIRECTORY ${INSTALL_DIR}/ DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE_PERMISSIONS
-        PATTERN src EXCLUDE PATTERN tmp EXCLUDE)

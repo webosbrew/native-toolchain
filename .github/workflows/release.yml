@@ -14,7 +14,7 @@ env:
 jobs:
   macos-x86_64:
     name: macOS x86_64
-    runs-on: macos-12-xl
+    runs-on: macos-12
 
     steps:
     - uses: actions/checkout@v3

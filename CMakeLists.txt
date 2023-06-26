@@ -17,12 +17,22 @@ set(GNU_TARGET_NAME "arm-webos-linux-gnueabi")
 set(BUILDROOT_RELEASE "webos-71307ba")
 set(BUILDROOT_SDK_NAME "${GNU_TARGET_NAME}_sdk-buildroot")
 
-set(HOST_DIR "${CMAKE_BINARY_DIR}/${BUILDROOT_SDK_NAME}")
-set(BUILDROOT_PORT_DOWNLOADS "${CMAKE_BINARY_DIR}/downloads")
+if (NOT DEFINED GNU_MIRROR)
+    set(GNU_MIRROR "https://ftp.gnu.org/gnu")
+endif ()
 
-set(GCC_MIRROR "https://gcc.gnu.org/pub/gcc")
+if (NOT DEFINED GCC_MIRROR)
+    set(GCC_MIRROR "https://gcc.gnu.org/pub/gcc")
+endif ()
 
-set(CMAKE_INSTALL_PREFIX ${HOST_DIR})
+if (NOT DEFINED BUILDROOT_DOWNLOADS)
+    set(BUILDROOT_DOWNLOADS "https://github.com/openlgtv/buildroot-nc4/releases/download")
+endif ()
+
+if (NOT DEFINED CMAKE_INSTALL_PREFIX)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/dist")
+endif ()
+set(CMAKE_STAGING_PREFIX "${CMAKE_BINARY_DIR}/${BUILDROOT_SDK_NAME}")
 
 if (NOT DEFINED CMAKE_C_COMPILER_TARGET)
     execute_process(COMMAND "${CMAKE_C_COMPILER}" "-v" ERROR_VARIABLE GCC_VERSION_INFO)
@@ -41,4 +51,7 @@ FetchContent_MakeAvailable(buildroot-nc4)
 
 add_subdirectory(sysroot)
 add_subdirectory(package)
+
+install(DIRECTORY ${CMAKE_STAGING_PREFIX}/ DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE_PERMISSIONS)
+
 add_subdirectory(toolchain)

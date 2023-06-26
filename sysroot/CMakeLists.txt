@@ -1,13 +1,13 @@
-set(PREFIX ${HOST_DIR})
-set(SYSROOT "${PREFIX}/${GNU_TARGET_NAME}/sysroot")
+set(SYSROOT "${CMAKE_STAGING_PREFIX}/${GNU_TARGET_NAME}/sysroot")
 
 if (APPLE OR BSD)
-    set(PATCH_RELOCATE_SDK "COMMAND" "patch" "${HOST_DIR}/relocate-sdk.sh"
+    set(PATCH_RELOCATE_SDK "COMMAND" "patch" "${CMAKE_STAGING_PREFIX}/relocate-sdk.sh"
             "${CMAKE_CURRENT_SOURCE_DIR}/relocate-sdk.patch")
 endif ()
 
 ExternalProject_Add(sysroot
-        URL "https://github.com/openlgtv/buildroot-nc4/releases/download/${BUILDROOT_RELEASE}/${BUILDROOT_SDK_NAME}.tar.gz"
+        INSTALL_DIR "${CMAKE_STAGING_PREFIX}"
+        URL "${BUILDROOT_DOWNLOADS}/${BUILDROOT_RELEASE}/${BUILDROOT_SDK_NAME}.tar.gz"
         DOWNLOAD_NO_EXTRACT TRUE
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
@@ -17,4 +17,5 @@ ExternalProject_Add(sysroot
                 "${BUILDROOT_SDK_NAME}/environment-setup"
                 "${BUILDROOT_SDK_NAME}/relocate-sdk.sh" || true
             ${PATCH_RELOCATE_SDK}
-            COMMAND "${HOST_DIR}/relocate-sdk.sh")
+            COMMAND "${CMAKE_STAGING_PREFIX}/relocate-sdk.sh"
+            ${PATCH_ENVIRONMENT_SETUP})

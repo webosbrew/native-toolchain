@@ -6,8 +6,9 @@ if (APPLE OR BSD)
 endif()
 add_dependencies(toolchain-wrapper gcc)
 
-set(PREFIX "${HOST_DIR}")
+install(TARGETS toolchain-wrapper DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 
-install(TARGETS toolchain-wrapper)
-install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -DBINDIR=${PREFIX}/bin -DGNU_TARGET_NAME=${GNU_TARGET_NAME}
-    -P ${CMAKE_CURRENT_SOURCE_DIR}/toolchain-wrapper-links.cmake)")
+ExternalProject_Get_Property(gcc INSTALL_DIR)
+
+install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -DBINDIR=${CMAKE_INSTALL_PREFIX}/bin
+    -DGNU_TARGET_NAME=${GNU_TARGET_NAME} -P ${CMAKE_CURRENT_SOURCE_DIR}/toolchain-wrapper-links.cmake)")
