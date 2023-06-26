@@ -20,7 +20,7 @@ set(BUILDROOT_SDK_NAME "${GNU_TARGET_NAME}_sdk-buildroot")
 set(HOST_DIR "${CMAKE_BINARY_DIR}/${BUILDROOT_SDK_NAME}")
 set(BUILDROOT_PORT_DOWNLOADS "${CMAKE_BINARY_DIR}/downloads")
 
-set(GCC_MIRROR "http://ftp.tsukuba.wide.ad.jp/software/gcc")
+set(GCC_MIRROR "https://gcc.gnu.org/pub/gcc")
 
 set(CMAKE_INSTALL_PREFIX ${HOST_DIR})
 
