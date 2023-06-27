@@ -8,7 +8,6 @@ permissions:
   contents: write
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
 jobs:
@@ -43,7 +42,8 @@ jobs:
       run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(sysctl -n hw.logicalcpu)" >> $GITHUB_ENV
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=/dist/arm-webos-linux-gnueabi_sdk-buildroot
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+        -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot
       env:
         CC: '/opt/local/bin/gcc'
         CXX: '/opt/local/bin/g++'
@@ -55,8 +55,9 @@ jobs:
       run: cmake --install ${{github.workspace}}/build
 
     - name: Make Tarball
-      run: cmake -E tar cjvf arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2 arm-webos-linux-gnueabi_sdk-buildroot
-      working-directory: dist
+      run: cmake -E tar cjvf arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2 \
+        arm-webos-linux-gnueabi_sdk-buildroot
+      working-directory: ${{github.workspace}}/build/dist
 
     - name: Create Release
       uses: ncipollo/release-action@v1
@@ -67,4 +68,4 @@ jobs:
         omitNameDuringUpdate: true
         omitBodyDuringUpdate: true
         omitPrereleaseDuringUpdate: true
-        artifacts: dist/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
+        artifacts: build/dist/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
