@@ -1,11 +1,12 @@
 # buildroot-nc4-ports
 
-Ports for [webOS NDK](https://github.com/openlgtv/buildroot-nc4) supporting systems other than Linux x86_64
+Ports for [Unofficial webOS NDK](https://github.com/openlgtv/buildroot-nc4) supporting systems other than Linux x86_64
 
 ---
 
 ## Supported Host Platforms
 
+* [Linux x86_64 (original)](https://github.com/openlgtv/buildroot-nc4/releases/latest)
 * macOS x86_64
 
 ## Install
@@ -52,11 +53,9 @@ If your `LANG` environment variable is not `en_US.UTF-8`, please set to that.
 
 ```shell
 cmake -E make_directory build
-cmake -B build 
+cmake -B build -DCMAKE_INSTALL_PREFIX=/path/to/install/location
 cmake --build build 
-cmake --install build 
+cmake --install build # Ensure you have write permission to the prefix you set
 ```
 
-Then you will get a directory under `build`, named `arm-webos-linux-gnueabi_sdk-buildroot`.
-This is equivalent to the prebuilt tarball extracted.
-You can copy or move it to the location you want.
+Then the toolchain will be installed to the location you want automatically.
