@@ -5,7 +5,7 @@ if [ ! -d "$1" ]; then
   exit 1
 fi
 
-LIBDIR=$(realpath "$1")
+LIBDIR="$1"
 AWK_LIB_PREFIX=$(echo "$LIBDIR" | sed -e 's/\//\\\//g')
 
 find bin lib libexec -type file | while read -r FILE; do

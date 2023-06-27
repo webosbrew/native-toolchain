@@ -55,3 +55,5 @@ add_subdirectory(package)
 install(DIRECTORY ${CMAKE_STAGING_PREFIX}/ DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE_PERMISSIONS)
 
 add_subdirectory(toolchain)
+
+install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_PREFIX}/relocate-sdk.sh)")
