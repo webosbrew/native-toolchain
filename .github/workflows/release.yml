@@ -68,4 +68,4 @@ jobs:
         omitNameDuringUpdate: true
         omitBodyDuringUpdate: true
         omitPrereleaseDuringUpdate: true
-        artifacts: build/dist/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
+        artifacts: ${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
