@@ -18,10 +18,22 @@ Ports for [webOS NDK](https://github.com/openlgtv/buildroot-nc4) supporting syst
 
 ### CMake
 
-Assign `CMAKE_TOOLCHAIN_FILE` with toolchain file
+When you build a CMake project in command line, assign `CMAKE_TOOLCHAIN_FILE` with toolchain file. 
 
 ```shell
 cmake -B build -DCMAKE_TOOLCHAIN_FILE=/path/to/extracted/tarball/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake
+```
+
+For VSCode [CMake Tools](https://github.com/microsoft/vscode-cmake-tools/), add entry in 
+[Kit options](https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/kits.md#kit-options):
+
+```json
+[
+    {
+        "name": "webOS",
+        "toolchainFile": "/path/to/extracted/tarball/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake"
+    }
+]
 ```
 
 ### Build
