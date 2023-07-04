@@ -7,7 +7,7 @@ Ports for [Unofficial webOS NDK](https://github.com/openlgtv/buildroot-nc4) supp
 ## Supported Host Platforms
 
 * [Linux x86_64 (original)](https://github.com/openlgtv/buildroot-nc4/releases/latest)
-* macOS x86_64
+* [macOS x86_64](https://github.com/webosbrew/native-toolchain/releases)
 
 ## Install
 
