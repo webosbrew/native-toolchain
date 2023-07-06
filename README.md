@@ -40,9 +40,9 @@ For VSCode [CMake Tools](https://github.com/microsoft/vscode-cmake-tools/), add 
 ]
 ```
 
-### Build
+## Advanced Usage Guide: Building the Port
 
-If your machine is not included, you can build it on your local machine.
+If your machine is not included, you can build it on your local machine. **Normally, you don't need to do this!**
 
 #### Prerequisites
 
