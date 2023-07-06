@@ -1,17 +1,20 @@
-# buildroot-nc4-ports
+# Unofficial Native Toolchain for webOS
 
-Ports for [Unofficial webOS NDK](https://github.com/openlgtv/buildroot-nc4) supporting systems other than Linux x86_64
+Ports, downloads and documents for [unofficial webOS NDK](https://github.com/openlgtv/buildroot-nc4).
+You can use this tool to develop native applications for your webOS based TV.
 
 ---
 
-## Supported Host Platforms
+## Download
 
-* [Linux x86_64 (original)](https://github.com/openlgtv/buildroot-nc4/releases/latest)
-* [macOS x86_64](https://github.com/webosbrew/native-toolchain/releases)
+| Operating System | x86_64                                                                                 | arm64             |
+|------------------|----------------------------------------------------------------------------------------|-------------------|
+| Linux            | [arm-webos-linux-gnueabi_sdk-buildroot.tar.gz][toolchain-linux-x86_64]                 | Not available yet |
+| macOS            | [arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2][toolchain-darwin-x86_64] | Not available yet |
 
 ## Install
 
-1. Download tarball for your system from [latest release](https://github.com/mariotaku/buildroot-nc4-sdk-ports/releases)
+1. Download tarball for your system listed above
 2. Extract the tarball to the location you want (please avoid having spaces and special characters in the path)
 3. Run `relocate-sdk.sh` in extracted contents
 
@@ -19,21 +22,21 @@ Ports for [Unofficial webOS NDK](https://github.com/openlgtv/buildroot-nc4) supp
 
 ### CMake
 
-When you build a CMake project in command line, assign `CMAKE_TOOLCHAIN_FILE` with toolchain file. 
+When you build a CMake project in command line, assign `CMAKE_TOOLCHAIN_FILE` with toolchain file.
 
 ```shell
 cmake -B build -DCMAKE_TOOLCHAIN_FILE=/path/to/extracted/tarball/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake
 ```
 
-For VSCode [CMake Tools](https://github.com/microsoft/vscode-cmake-tools/), add entry in 
+For VSCode [CMake Tools](https://github.com/microsoft/vscode-cmake-tools/), add entry in
 [Kit options](https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/kits.md#kit-options):
 
 ```json
 [
-    {
-        "name": "webOS",
-        "toolchainFile": "/path/to/extracted/tarball/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake"
-    }
+  {
+    "name": "webOS",
+    "toolchainFile": "/path/to/extracted/tarball/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake"
+  }
 ]
 ```
 
@@ -59,3 +62,7 @@ cmake --install build # Ensure you have write permission to the prefix you set
 ```
 
 Then the toolchain will be installed to the location you want automatically.
+
+[toolchain-linux-x86_64]: https://github.com/openlgtv/buildroot-nc4/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
+
+[toolchain-darwin-x86_64]: https://github.com/webosbrew/native-toolchain/releases/download/webos-71307ba.1/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
