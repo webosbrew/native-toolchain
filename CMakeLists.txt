@@ -14,7 +14,7 @@ set(CMAKE_C_STANDARD 11)
 string(REGEX REPLACE ".*-" "" BUILDROOT_BUILD_ID "${BUILDROOT_RELEASE}")
 set(GNU_TARGET_NAME "arm-webos-linux-gnueabi")
 
-set(BUILDROOT_RELEASE "webos-71307ba")
+set(BUILDROOT_RELEASE "webos-d7ed7ee")
 set(BUILDROOT_SDK_NAME "${GNU_TARGET_NAME}_sdk-buildroot")
 
 if (NOT DEFINED GNU_MIRROR)
