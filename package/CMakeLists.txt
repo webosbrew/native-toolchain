@@ -24,3 +24,5 @@ add_subdirectory(binutils)
 add_subdirectory(gcc)
 add_subdirectory(pkgconf)
 add_subdirectory(gawk)
+
+add_subdirectory(wayland)
