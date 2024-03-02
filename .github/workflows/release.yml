@@ -16,58 +16,94 @@ jobs:
     runs-on: macos-12
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Download MacPorts
-      uses: robinraju/release-downloader@v1.8
-      with:
-        repository: "macports/macports-base"
-        latest: true
-        fileName: "*-12-Monterey.pkg"
-        out-file-path: "/tmp"
-  
-    - name: Install MacPorts
-      run: sudo installer -pkg /tmp/MacPorts-*.pkg -target /
+      - name: Download MacPorts
+        uses: robinraju/release-downloader@v1.9
+        with:
+          repository: "macports/macports-base"
+          latest: true
+          fileName: "*-12-Monterey.pkg"
+          out-file-path: "/tmp"
 
-    - name: Add MacPorts to PATH
-      run: echo "/opt/local/bin:/opt/local/sbin" >> $GITHUB_PATH
-      
-    - name: Install CMake and GCC
-      run: sudo port install cmake gcc12 gcc_select
-      
-    - name: Configure GCC
-      run: sudo port select --set gcc mp-gcc12
+      - name: Install MacPorts
+        run: sudo installer -pkg /tmp/MacPorts-*.pkg -target /
 
-    - name: Set Parallel Level
-      run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(sysctl -n hw.logicalcpu)" >> $GITHUB_ENV
+      - name: Add MacPorts to PATH
+        run: echo "/opt/local/bin:/opt/local/sbin" >> $GITHUB_PATH
 
-    - name: Configure CMake
-      run: |
-        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-          -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot
-      env:
-        CC: '/opt/local/bin/gcc'
-        CXX: '/opt/local/bin/g++'
+      - name: Install CMake and GCC
+        run: sudo port install cmake gcc12 gcc_select
 
-    - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      - name: Configure GCC
+        run: sudo port select --set gcc mp-gcc12
 
-    - name: Install
-      run: cmake --install ${{github.workspace}}/build
+      - name: Set Parallel Level
+        run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(sysctl -n hw.logicalcpu)" >> $GITHUB_ENV
 
-    - name: Make Tarball
-      run: |
-        cmake -E tar cjvf arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2 \
-          arm-webos-linux-gnueabi_sdk-buildroot
-      working-directory: ${{github.workspace}}/build/dist
+      - name: Configure CMake
+        run: |
+          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+            -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot
+        env:
+          CC: '/opt/local/bin/gcc'
+          CXX: '/opt/local/bin/g++'
 
-    - name: Create Release
-      uses: ncipollo/release-action@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        name: Release ${{ steps.tagName.outputs.tag }}
-        allowUpdates: true
-        omitNameDuringUpdate: true
-        omitBodyDuringUpdate: true
-        omitPrereleaseDuringUpdate: true
-        artifacts: ${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+      - name: Install
+        run: cmake --install ${{github.workspace}}/build
+
+      - name: Make Tarball
+        run: |
+          cmake -E tar cjvf arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2 \
+            arm-webos-linux-gnueabi_sdk-buildroot
+        working-directory: ${{github.workspace}}/build/dist
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          name: Release ${{ steps.tagName.outputs.tag }}
+          allowUpdates: true
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          artifacts: ${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
+
+  linux-arm64:
+    name: Linux ARM64
+    runs-on: debian-arm64-latest
+
+    env:
+      LANG: 'en_US.UTF-8'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: |
+          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+            -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+      - name: Install
+        run: cmake --install ${{github.workspace}}/build
+
+      - name: Make Tarball
+        run: |
+          cmake -E tar cjvf arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2 \
+            arm-webos-linux-gnueabi_sdk-buildroot
+        working-directory: ${{github.workspace}}/build/dist
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          name: Release ${{ steps.tagName.outputs.tag }}
+          allowUpdates: true
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          artifacts: ${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2
