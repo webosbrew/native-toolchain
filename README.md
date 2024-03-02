@@ -7,10 +7,10 @@ You can use this tool to develop native applications for your webOS based TV.
 
 ## Download
 
-| Operating System | x86_64                                                                                 | arm64             |
-|------------------|----------------------------------------------------------------------------------------|-------------------|
-| Linux            | [arm-webos-linux-gnueabi_sdk-buildroot.tar.gz][toolchain-linux-x86_64]                 | Not available yet |
-| macOS            | [arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2][toolchain-darwin-x86_64] | Not available yet |
+| Operating System | x86_64                                                                                 | arm64                                                                                  |
+|------------------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| Linux            | [arm-webos-linux-gnueabi_sdk-buildroot.tar.gz][toolchain-linux-x86_64]                 | [arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2][toolchain-linux-aarch64] |
+| macOS            | [arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2][toolchain-darwin-x86_64] | Not available yet                                                                      |
 
 ## Install
 
@@ -65,4 +65,6 @@ Then the toolchain will be installed to the location you want automatically.
 
 [toolchain-linux-x86_64]: https://github.com/openlgtv/buildroot-nc4/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
 
-[toolchain-darwin-x86_64]: https://github.com/webosbrew/native-toolchain/releases/download/webos-71307ba.1/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
+[toolchain-linux-aarch64]: https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2
+
+[toolchain-darwin-x86_64]: https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
