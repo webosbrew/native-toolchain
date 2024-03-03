@@ -1,16 +1,26 @@
 diff --git a/relocate-sdk.sh b/relocate-sdk.sh
 --- a/relocate-sdk.sh	(date 1687254851000)
-+++ b/relocate-sdk.sh	(date 1687703200191)
-@@ -43,10 +43,10 @@
++++ b/relocate-sdk.sh	(date 1699325031602)
+@@ -39,14 +39,20 @@
+
+ # Make sure file uses the right language
+ export LC_ALL=C
++# Proper in-place argument for sed
++if sed --version 1>/dev/null 2>&1; then
++    SED_INPLACE_ARGS="-i"
++else # BSD sed
++    SED_INPLACE_ARGS="-i ''"
++fi
+ # Replace the old path with the new one in all text files
  grep -lr "${OLDPATH}" . | while read -r FILE ; do
      if file -b --mime-type "${FILE}" | grep -q '^text/' && [ "${FILE}" != "${LOCFILE}" ]
      then
 -        sed -i "s|${OLDPATH}|${NEWPATH}|g" "${FILE}"
-+        sed -i "" "s|${OLDPATH}|${NEWPATH}|g" "${FILE}"
++        sed ${SED_INPLACE_ARGS} "s|${OLDPATH}|${NEWPATH}|g" "${FILE}"
      fi
  done
- 
+
  # At the very end, we update the location file to not break the
  # SDK if this script gets interruted.
 -sed -i "s|${OLDPATH}|${NEWPATH}|g" ${LOCFILE}
-+sed -i "" "s|${OLDPATH}|${NEWPATH}|g" ${LOCFILE}
++sed ${SED_INPLACE_ARGS} "s|${OLDPATH}|${NEWPATH}|g" ${LOCFILE}
