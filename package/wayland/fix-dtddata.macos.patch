@@ -1,0 +1,11 @@
+diff --git a/src/dtddata.S b/src/dtddata.S
+--- a/src/dtddata.S	(date 1709447244638)
++++ b/src/dtddata.S	(date 1709447346579)
+@@ -46,5 +46,5 @@
+ 	.int (\name\()_end - \name\()_begin)
+ .endm
+
+-.section .rodata
+-binfile DTD_DATA src/wayland.dtd.embed
++.section __TEXT,__const
++binfile _DTD_DATA, src/wayland.dtd.embed

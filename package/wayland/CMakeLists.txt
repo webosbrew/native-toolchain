@@ -1,5 +1,11 @@
 br_get_var("package/wayland/wayland.mk" HOST_WAYLAND_VERSION WAYLAND_VERSION)
 
+if (APPLE OR BSD)
+    list(APPEND WAYLAND_PATCHES "${CMAKE_CURRENT_SOURCE_DIR}/fix-dtddata.macos.patch")
+endif ()
+
+list(TRANSFORM WAYLAND_PATCHES PREPEND "COMMAND;patch;-p1;<;" OUTPUT_VARIABLE WAYLAND_PATCH_COMMANDS)
+
 ExternalProject_Add(wayland
         INSTALL_DIR "${CMAKE_STAGING_PREFIX}"
         URL "http://wayland.freedesktop.org/releases/wayland-${WAYLAND_VERSION}.tar.xz"
