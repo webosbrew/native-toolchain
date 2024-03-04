@@ -29,12 +29,12 @@ runs:
         sudo apt-get update -y
         sudo apt-get install -y gcc-12 g++-12
 
-    - name: Set Parallel Level (macOS)
+    - name: Set parallel level (macOS)
       if: inputs.os == 'darwin'
       shell: bash
       run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(sysctl -n hw.logicalcpu)" >> $GITHUB_ENV
 
-    - name: Set Parallel Level
+    - name: Set parallel level (Linux)
       if: inputs.os == 'linux'
       shell: bash
       run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)" >> $GITHUB_ENV
@@ -50,6 +50,7 @@ runs:
         LANG: 'en_US.UTF-8'
 
     - name: Build
+      id: build
       shell: bash
       run: cmake --build ${{github.workspace}}/build --config ${{inputs.build-type}}
       env:
@@ -59,7 +60,14 @@ runs:
       shell: bash
       run: cmake --install ${{github.workspace}}/build
 
-    - name: Set Output
+    - name: Set output
       id: set-output
       shell: bash
       run: echo "install-prefix=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot" >> "$GITHUB_OUTPUT"
+
+    - name: Upload build logs
+      uses: actions/upload-artifact@v4
+      if: ${{ failure() && steps.build.conclusion == 'failure' }}
+      with:
+        name: build-toolchains-logs-${{ matrix.os }}-${{ matrix.arch }}-${{ github.run_id }}
+        path: build/**/*.log

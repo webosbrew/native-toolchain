@@ -15,7 +15,7 @@ on:
 
 jobs:
   machine-select:
-    name: Select Build Machine
+    name: Select build machine
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.result }}
@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Toolchain
+      - name: Build toolchain
         id: build-toolchain
         uses: './.github/actions/build-toolchain'
         with:
@@ -51,7 +51,7 @@ jobs:
           os: ${{ matrix.os }}
           arch: ${{ matrix.arch }}
 
-      - name: Make Tarball
+      - name: Make tarball
         run: |
           cmake -E tar cjvf ${ARTIFACT_NAME} arm-webos-linux-gnueabi_sdk-buildroot
         working-directory: ${{steps.build-toolchain.outputs.install-prefix}}
