@@ -29,6 +29,13 @@ runs:
         sudo apt-get update -y
         sudo apt-get install -y gcc-12 g++-12
 
+    - name: Install GMake (macOS)
+      if: inputs.os == 'darwin'
+      shell: bash
+      run: |
+        brew install make
+        echo "$HOMEBREW_PREFIX/opt/make/libexec/gnubin" >> $GITHUB_PATH
+
     - name: Set parallel level (macOS)
       if: inputs.os == 'darwin'
       shell: bash
@@ -70,4 +77,8 @@ runs:
       if: ${{ failure() && steps.build.conclusion == 'failure' }}
       with:
         name: build-toolchains-logs-${{ matrix.os }}-${{ matrix.arch }}-${{ github.run_id }}
-        path: build/**/*.log
+        path: |
+          build/**/*.log
+          build/**/*.txt
+          build/**/*.cmake
+          build/**/Makefile
