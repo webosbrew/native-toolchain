@@ -12,11 +12,16 @@ ExternalProject_Add(sysroot
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_BINARY_DIR} tar xf <DOWNLOADED_FILE>
+                --exclude "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot/usr/share/doc"
+                --exclude "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot/usr/share/i18n"
+                --exclude "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot/usr/share/locale"
+                --exclude "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot/usr/share/man"
+                --exclude "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot/usr/share/terminfo"
+                --exclude "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot/usr/share/zoneinfo"
                 "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot"
                 "${BUILDROOT_SDK_NAME}/share/buildroot"
                 "${BUILDROOT_SDK_NAME}/environment-setup"
                 "${BUILDROOT_SDK_NAME}/relocate-sdk.sh"
-                --exclude "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot/usr/share/terminfo"
             ${PATCH_RELOCATE_SDK}
             COMMAND "${CMAKE_STAGING_PREFIX}/relocate-sdk.sh"
         LOG_CONFIGURE TRUE
