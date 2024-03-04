@@ -14,8 +14,8 @@ on:
           - 'Linux ARM64'
 
 jobs:
-  filter:
-    name: Select Build Targets
+  machine-select:
+    name: Select Build Machine
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.result }}
@@ -34,10 +34,10 @@ jobs:
 
   build:
     name: Build for ${{ matrix.name }}
-    needs: filter
+    needs: machine-select
     strategy:
       matrix:
-        include: ${{ fromJson(needs.filter.outputs.matrix) }}
+        include: ${{ fromJson(needs.machine-select.outputs.matrix) }}
     runs-on: ${{ matrix.machine }}
 
     steps:
