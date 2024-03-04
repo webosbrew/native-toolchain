@@ -1,0 +1,65 @@
+name: Build Toolchain
+inputs:
+  machine:
+    required: true
+    type: string
+  os:
+    required: true
+    type: string
+  arch:
+    required: true
+    type: string
+  build-type:
+    default: Release
+    required: true
+    type: string
+
+outputs:
+  install-prefix:
+    description: 'Installation prefix for the toolchain'
+    value: ${{steps.set-output.outputs.install-prefix}}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install GCC 12 (Linux)
+      if: inputs.os == 'linux'
+      shell: bash
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y gcc-12 g++-12
+
+    - name: Set Parallel Level (macOS)
+      if: inputs.os == 'darwin'
+      shell: bash
+      run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(sysctl -n hw.logicalcpu)" >> $GITHUB_ENV
+
+    - name: Set Parallel Level
+      if: inputs.os == 'linux'
+      shell: bash
+      run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)" >> $GITHUB_ENV
+
+    - name: Configure CMake
+      shell: bash
+      run: |
+        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build-type}} \
+          -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot
+      env:
+        CC: 'gcc-12'
+        CXX: 'g++-12'
+        LANG: 'en_US.UTF-8'
+
+    - name: Build
+      shell: bash
+      run: cmake --build ${{github.workspace}}/build --config ${{inputs.build-type}}
+      env:
+        LANG: 'en_US.UTF-8'
+
+    - name: Install
+      shell: bash
+      run: cmake --install ${{github.workspace}}/build
+
+    - name: Set Output
+      id: set-output
+      shell: bash
+      run: echo "install-prefix=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot" >> $GITHUB_OUTPUT

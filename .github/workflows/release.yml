@@ -9,101 +9,52 @@ permissions:
 
 env:
   BUILD_TYPE: Release
+  LANG: 'en_US.UTF-8'
 
 jobs:
-  macos-x86_64:
-    name: macOS x86_64
-    runs-on: macos-12
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download MacPorts
-        uses: robinraju/release-downloader@v1.9
-        with:
-          repository: "macports/macports-base"
-          latest: true
-          fileName: "*-12-Monterey.pkg"
-          out-file-path: "/tmp"
-
-      - name: Install MacPorts
-        run: sudo installer -pkg /tmp/MacPorts-*.pkg -target /
-
-      - name: Add MacPorts to PATH
-        run: echo "/opt/local/bin:/opt/local/sbin" >> $GITHUB_PATH
-
-      - name: Install CMake and GCC
-        run: sudo port install cmake gcc12 gcc_select
-
-      - name: Configure GCC
-        run: sudo port select --set gcc mp-gcc12
-
-      - name: Set Parallel Level
-        run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(sysctl -n hw.logicalcpu)" >> $GITHUB_ENV
-
-      - name: Configure CMake
-        run: |
-          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-            -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot
-        env:
-          CC: '/opt/local/bin/gcc'
-          CXX: '/opt/local/bin/g++'
-
-      - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-      - name: Install
-        run: cmake --install ${{github.workspace}}/build
-
-      - name: Make Tarball
-        run: |
-          cmake -E tar cjvf arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2 \
-            arm-webos-linux-gnueabi_sdk-buildroot
-        working-directory: ${{github.workspace}}/build/dist
-
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          name: Release ${{ steps.tagName.outputs.tag }}
-          allowUpdates: true
-          omitNameDuringUpdate: true
-          omitBodyDuringUpdate: true
-          omitPrereleaseDuringUpdate: true
-          artifacts: ${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
-
-  linux-arm64:
-    name: Linux ARM64
-    runs-on: debian-arm64-latest
-
+  release:
+    name: Release for ${{ matrix.display-name }}
+    strategy:
+      matrix:
+        include:
+          - machine: 'macos-12'
+            os: 'darwin'
+            arch: 'x86_64'
+            display-name: macOS x86_64
+          - machine: 'macos-14'
+            os: 'darwin'
+            arch: 'arm64'
+            display-name: macOS ARM64
+          - machine: 'debian-arm64-latest'
+            os: 'linux'
+            arch: 'aarch64'
+            display-name: Linux ARM64
+    runs-on: ${{ matrix.machine }}
     env:
-      LANG: 'en_US.UTF-8'
+      ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}.tar.bz2
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configure CMake
-        run: |
-          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-            -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot
-
-      - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-      - name: Install
-        run: cmake --install ${{github.workspace}}/build
+      - id: build-toolchain
+        name: Build Toolchain
+        uses: './.github/actions/build-toolchain'
+        with:
+          machine: ${{ matrix.machine }}
+          os: ${{ matrix.os }}
+          arch: ${{ matrix.arch }}
 
       - name: Make Tarball
         run: |
-          cmake -E tar cjvf arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2 \
-            arm-webos-linux-gnueabi_sdk-buildroot
-        working-directory: ${{github.workspace}}/build/dist
+          cmake -E tar cjvf ${{env.ARTIFACT_NAME}} arm-webos-linux-gnueabi_sdk-buildroot
+        working-directory: ${{steps.build-toolchain.outputs.install-prefix}}
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          name: Release ${{ steps.tagName.outputs.tag }}
+          name: Release ${{ github.event.release.tag_name }}
           allowUpdates: true
           omitNameDuringUpdate: true
           omitBodyDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-          artifacts: ${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2
+          artifacts: ${{github.workspace}}/build/dist/${{env.ARTIFACT_NAME}}

@@ -1,0 +1,50 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      machine:
+        description: 'Host to build for'
+        required: true
+        type: choice
+        options:
+          - 'macos-12'
+          - 'macos-14'
+          - 'debian-arm64-latest'
+
+jobs:
+  filter:
+    name: Select Build Host
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.result }}
+    steps:
+      - name: Set Output
+        id: set-matrix
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const machines = [
+                {machine: 'macos-12', os: 'darwin', arch: 'x86_64', name: 'macOS x86_64'},
+                {machine: 'macos-14', os: 'darwin', arch: 'arm64', name: 'macOS ARM64'},
+                {machine: 'debian-arm64-latest', os: 'linux', arch: 'aarch64', name: 'Linux ARM64'}
+            ];
+            return machines.filter(machine => machine.machine === '${{ github.event.inputs.machine }}');
+
+  build:
+    name: Build for ${{ matrix.name }}
+    needs: filter
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.filter.outputs.matrix) }}
+    runs-on: ${{ matrix.machine }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Toolchain
+        uses: './.github/actions/build-toolchain'
+        with:
+          machine: ${{ matrix.machine }}
+          os: ${{ matrix.os }}
+          arch: ${{ matrix.arch }}
