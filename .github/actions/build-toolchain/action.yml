@@ -66,6 +66,8 @@ runs:
     - name: Install
       shell: bash
       run: cmake --install ${{github.workspace}}/build
+      env:
+        CMAKE_INSTALL_MESSAGE: 'NEVER'
 
     - name: Set output
       id: set-output
