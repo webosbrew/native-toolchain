@@ -13,22 +13,22 @@ env:
 
 jobs:
   release:
-    name: Release for ${{ matrix.display-name }}
+    name: Release for ${{ matrix.name }}
     strategy:
       matrix:
         include:
           - machine: 'macos-12'
             os: 'darwin'
             arch: 'x86_64'
-            display-name: macOS x86_64
+            name: macOS x86_64
           - machine: 'macos-14'
             os: 'darwin'
             arch: 'arm64'
-            display-name: macOS ARM64
+            name: macOS ARM64
           - machine: 'debian-arm64-latest'
             os: 'linux'
             arch: 'aarch64'
-            display-name: Linux ARM64
+            name: Linux ARM64
     runs-on: ${{ matrix.machine }}
     env:
       ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}.tar.bz2
@@ -46,7 +46,7 @@ jobs:
 
       - name: Make Tarball
         run: |
-          cmake -E tar cjvf ${{env.ARTIFACT_NAME}} arm-webos-linux-gnueabi_sdk-buildroot
+          cmake -E tar cjvf ${ARTIFACT_NAME} arm-webos-linux-gnueabi_sdk-buildroot
         working-directory: ${{steps.build-toolchain.outputs.install-prefix}}
 
       - name: Create Release
