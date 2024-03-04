@@ -48,7 +48,7 @@ jobs:
       - name: Make Tarball
         run: |
           cmake -E tar cjvf ${ARTIFACT_NAME} arm-webos-linux-gnueabi_sdk-buildroot
-        working-directory: ${{steps.build-toolchain.outputs.install-prefix}}
+        working-directory: ${{steps.build-toolchain.outputs.dist}}
 
       - name: Create Release
         uses: ncipollo/release-action@v1
