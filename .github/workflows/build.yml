@@ -39,6 +39,8 @@ jobs:
       matrix:
         include: ${{ fromJson(needs.machine-select.outputs.matrix) }}
     runs-on: ${{ matrix.machine }}
+    env:
+      ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}.tar.bz2
 
     steps:
       - uses: actions/checkout@v4
