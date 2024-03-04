@@ -36,4 +36,8 @@ ExternalProject_Add(gcc DEPENDS sysroot binutils gmp mpc mpfr isl m4
             --with-build-time-tools=${BINUTILS_INSTALL_DIR}/${GNU_TARGET_NAME}/bin --enable-shared --disable-libgomp
         BUILD_COMMAND $(MAKE) MAKEINFO=true
         INSTALL_COMMAND $(MAKE) install-strip MAKEINFO=true
-        )
+        LOG_CONFIGURE TRUE
+        LOG_BUILD TRUE
+        LOG_INSTALL TRUE
+        LOG_OUTPUT_ON_FAILURE TRUE
+)

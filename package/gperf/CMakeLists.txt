@@ -6,6 +6,11 @@ ExternalProject_Add(gperf
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
         BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install)
+        INSTALL_COMMAND $(MAKE) install
+        LOG_CONFIGURE TRUE
+        LOG_BUILD TRUE
+        LOG_INSTALL TRUE
+        LOG_OUTPUT_ON_FAILURE TRUE
+)
 
 ExternalProject_Get_Property(gperf INSTALL_DIR)

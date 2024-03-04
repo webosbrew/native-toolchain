@@ -62,4 +62,4 @@ runs:
     - name: Set Output
       id: set-output
       shell: bash
-      run: echo "install-prefix=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot" >> $GITHUB_OUTPUT
+      run: echo "install-prefix=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot" >> "$GITHUB_OUTPUT"

@@ -10,6 +10,11 @@ ExternalProject_Add(autoconf-archive DEPENDS autoconf m4
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             AUTOCONF=${AUTOCONF_INSTALL_DIR}/bin/autoconf AUTOHEADER=${AUTOCONF_INSTALL_DIR}/bin/autoheader
         BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install-strip)
+        INSTALL_COMMAND $(MAKE) install-strip
+        LOG_CONFIGURE TRUE
+        LOG_BUILD TRUE
+        LOG_INSTALL TRUE
+        LOG_OUTPUT_ON_FAILURE TRUE
+)
 
 ExternalProject_Get_Property(autoconf-archive INSTALL_DIR)

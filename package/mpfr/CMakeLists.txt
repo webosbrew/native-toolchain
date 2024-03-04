@@ -10,6 +10,11 @@ ExternalProject_Add(mpfr DEPENDS gmp
         CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
             --with-gmp=<INSTALL_DIR>
         BUILD_COMMAND $(MAKE)
-        INSTALL_COMMAND $(MAKE) install-strip)
+        INSTALL_COMMAND $(MAKE) install-strip
+        LOG_CONFIGURE TRUE
+        LOG_BUILD TRUE
+        LOG_INSTALL TRUE
+        LOG_OUTPUT_ON_FAILURE TRUE
+)
 
 ExternalProject_Get_Property(mpfr INSTALL_DIR)

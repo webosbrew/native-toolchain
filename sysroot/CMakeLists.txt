@@ -15,7 +15,10 @@ ExternalProject_Add(sysroot
                 "${BUILDROOT_SDK_NAME}/${GNU_TARGET_NAME}/sysroot"
                 "${BUILDROOT_SDK_NAME}/share/buildroot"
                 "${BUILDROOT_SDK_NAME}/environment-setup"
-                "${BUILDROOT_SDK_NAME}/relocate-sdk.sh" || true
+                "${BUILDROOT_SDK_NAME}/relocate-sdk.sh"
             ${PATCH_RELOCATE_SDK}
             COMMAND "${CMAKE_STAGING_PREFIX}/relocate-sdk.sh"
-            ${PATCH_ENVIRONMENT_SETUP})
+        LOG_CONFIGURE TRUE
+        LOG_BUILD TRUE
+        LOG_INSTALL TRUE
+        LOG_OUTPUT_ON_FAILURE TRUE)
