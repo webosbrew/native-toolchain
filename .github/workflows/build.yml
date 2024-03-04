@@ -14,7 +14,7 @@ on:
 
 jobs:
   filter:
-    name: Select Build Host
+    name: Select Build Targets
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.result }}

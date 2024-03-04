@@ -1,0 +1,16 @@
+diff --git a/gold/gold-threads.cc b/gold/gold-threads.cc
+--- a/gold/gold-threads.cc	(date 1642853649000)
++++ b/gold/gold-threads.cc	(date 1709531784143)
+@@ -285,8 +285,10 @@
+ {
+  public:
+   Once_initialize()
+-    : once_(PTHREAD_ONCE_INIT)
+-  { }
++  {
++      pthread_once_t once_init = PTHREAD_ONCE_INIT;
++      this->once_ = once_init;
++  }
+
+   // Return a pointer to the pthread_once_t variable.
+   pthread_once_t*
