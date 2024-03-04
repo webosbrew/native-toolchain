@@ -76,7 +76,7 @@ runs:
       uses: actions/upload-artifact@v4
       if: ${{ failure() && steps.build.conclusion == 'failure' }}
       with:
-        name: build-toolchains-logs-${{ matrix.os }}-${{ matrix.arch }}-${{ github.run_id }}
+        name: build-toolchains-logs-${{ inputs.os }}-${{ inputs.arch }}-${{ github.run_id }}
         path: |
           build/**/*.log
           build/**/*.txt

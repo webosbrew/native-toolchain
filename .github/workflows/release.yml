@@ -15,6 +15,7 @@ jobs:
   release:
     name: Release for ${{ matrix.name }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - machine: 'macos-12'
