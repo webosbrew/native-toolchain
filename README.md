@@ -10,7 +10,7 @@ You can use this tool to develop native applications for your webOS based TV.
 | Operating System | x86_64                                                                                 | arm64                                                                                  |
 |------------------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | Linux            | [arm-webos-linux-gnueabi_sdk-buildroot.tar.gz][toolchain-linux-x86_64]                 | [arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2][toolchain-linux-aarch64] |
-| macOS            | [arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2][toolchain-darwin-x86_64] | Not available yet                                                                      |
+| macOS            | [arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2][toolchain-darwin-x86_64] | [arm-webos-linux-gnueabi_sdk-buildroot_darwin-arm64.tar.bz2][toolchain-darwin-arm64]   |
 
 ## Install
 
@@ -48,6 +48,7 @@ If your machine is not included, you can build it on your local machine. **Norma
 
 * GCC
 * CMake
+* Newer GNU Make (default one in macOS will probably not work)
 
 #### Build Toolchain Port
 
@@ -68,3 +69,5 @@ Then the toolchain will be installed to the location you want automatically.
 [toolchain-linux-aarch64]: https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2
 
 [toolchain-darwin-x86_64]: https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
+
+[toolchain-darwin-arm64]: https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_darwin-arm64.tar.bz2
