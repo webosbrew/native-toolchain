@@ -1,16 +1,17 @@
 name: Build
+run-name: Build (${{ github.event.inputs.machine-name }})
 
 on:
   workflow_dispatch:
     inputs:
-      machine:
+      machine-name:
         description: 'Host to build for'
         required: true
         type: choice
         options:
-          - 'macos-12'
-          - 'macos-14'
-          - 'debian-arm64-latest'
+          - 'macOS x86_64'
+          - 'macOS ARM64'
+          - 'Linux ARM64'
 
 jobs:
   filter:
@@ -29,7 +30,7 @@ jobs:
                 {machine: 'macos-14', os: 'darwin', arch: 'arm64', name: 'macOS ARM64'},
                 {machine: 'debian-arm64-latest', os: 'linux', arch: 'aarch64', name: 'Linux ARM64'}
             ];
-            return machines.filter(machine => machine.machine === '${{ github.event.inputs.machine }}');
+            return machines.filter(machine => machine.name === '${{ github.event.inputs.machine-name }}');
 
   build:
     name: Build for ${{ matrix.name }}
