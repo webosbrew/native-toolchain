@@ -11,8 +11,8 @@ ExternalProject_Add(autoconf DEPENDS m4
         URL "${GNU_MIRROR}/autoconf/autoconf-${AUTOCONF_VERSION}.tar.xz"
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         PATCH_COMMAND ${AUTOCONF_PATCH_COMMANDS}
-        CONFIGURE_COMMAND EMACS="no" ac_cv_path_M4=${M4_INSTALL_DIR}/bin/m4 ac_cv_prog_gnu_m4_gnu=no
-            <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
+        CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env EMACS=no ac_cv_path_M4=${M4_INSTALL_DIR}/bin/m4
+            ac_cv_prog_gnu_m4_gnu=no -- <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --sysconfdir=<INSTALL_DIR>/etc
         BUILD_COMMAND $(MAKE)
         INSTALL_COMMAND $(MAKE) install-strip
         LOG_CONFIGURE TRUE
