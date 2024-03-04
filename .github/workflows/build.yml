@@ -44,8 +44,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Toolchain
+        id: build-toolchain
         uses: './.github/actions/build-toolchain'
         with:
           machine: ${{ matrix.machine }}
           os: ${{ matrix.os }}
           arch: ${{ matrix.arch }}
+
+      - name: Make Tarball
+        run: |
+          cmake -E tar cjvf ${ARTIFACT_NAME} arm-webos-linux-gnueabi_sdk-buildroot
+        working-directory: ${{steps.build-toolchain.outputs.install-prefix}}
