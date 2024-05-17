@@ -18,10 +18,10 @@
 
       webOsToolchain = {system, fetchurl, runCommand}: let 
           urlToolchain = {
-              "x86_64-linux"  = "https://github.com/openlgtv/buildroot-nc4/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz";
-              "aarch64-linux" = "https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2";
-              "x86_64-darwin" = "https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2";
-              "aarch64-darwin"= "https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_darwin-arm64.tar.bz2";
+              "x86_64-linux"  = "https://github.com/openlgtv/buildroot-nc4/releases/download/webos-d7ed7ee/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz";
+              "aarch64-linux" = "https://github.com/webosbrew/native-toolchain/releases/download/webos-d7ed7ee.6/arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2";
+              "x86_64-darwin" = "https://github.com/webosbrew/native-toolchain/releases/download/webos-d7ed7ee.6/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2";
+              "aarch64-darwin"= "https://github.com/webosbrew/native-toolchain/releases/download/webos-d7ed7ee.6/arm-webos-linux-gnueabi_sdk-buildroot_darwin-arm64.tar.bz2";
           }."${system}";
 
           hashToolchain = {
@@ -51,7 +51,7 @@
       in
       {
         default = pkgs.mkShell {
-          nativeBuildInputs = [ webOs pkgs.makeWrapper pkgs.cmake ];         
+          nativeBuildInputs = [ webOs pkgs.cmake ];         
           shellHook = ''
             alias cmake="${pkgs.cmake}/bin/cmake -DCMAKE_TOOLCHAIN_FILE=${webOs}/share/buildroot/toolchainfile.cmake"
           '';
