@@ -1,5 +1,5 @@
 {
-  description = "Cmake with webOs toolchain";
+  description = "Cmake with webOS toolchain";
 
   inputs = { nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11"; };
 
@@ -16,7 +16,7 @@
         nixpkgs.lib.genAttrs allSystems
         (system: fn { pkgs = import nixpkgs { inherit system; }; inherit system;});
 
-      webOsToolchain = {system, fetchurl, runCommand}: let 
+      webOSToolchain = {system, fetchurl, runCommand}: let 
           urlToolchain = {
               "x86_64-linux"  = "https://github.com/openlgtv/buildroot-nc4/releases/download/webos-d7ed7ee/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz";
               "aarch64-linux" = "https://github.com/webosbrew/native-toolchain/releases/download/webos-d7ed7ee.6/arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2";
@@ -44,16 +44,20 @@
         '';
     in {
 
-      defaultPackage = forAllSystems ({ pkgs, system }: pkgs.callPackage webOsToolchain { inherit system; });
+      defaultPackage = forAllSystems ({ pkgs, system }: pkgs.callPackage webOSToolchain { inherit system; });
 
       devShells = forAllSystems ({ pkgs, system }: let 
-          webOs = (pkgs.callPackage webOsToolchain { inherit system; });
+          webOS = (pkgs.callPackage webOSToolchain { inherit system; });
       in
       {
         default = pkgs.mkShell {
-          nativeBuildInputs = [ webOs pkgs.cmake ];         
+          nativeBuildInputs = [ webOS pkgs.cmake ];         
           shellHook = ''
-            alias cmake="${pkgs.cmake}/bin/cmake -DCMAKE_TOOLCHAIN_FILE=${webOs}/share/buildroot/toolchainfile.cmake"
+            alias cmake='${pkgs.cmake}/bin/cmake -DCMAKE_TOOLCHAIN_FILE=${webOS}/share/buildroot/toolchainfile.cmake -DCMAKE_CXX_FLAGS="-I ${webOS}/include/glib-2.0 -I ${webOS}/lib/glib-2.0/include"'
+            function webos_cmake_kit {
+              mkdir -p .vscode
+              echo '${builtins.toJSON [{ name = "webos-toolchain"; toolchainFile = "${webOS}/share/buildroot/toolchainfile.cmake";}]}' > .vscode/cmake-kits.json
+            }
           '';
         };
       });
