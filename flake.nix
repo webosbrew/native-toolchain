@@ -53,7 +53,7 @@
         default = pkgs.mkShell {
           nativeBuildInputs = [ webOS pkgs.cmake ];         
           shellHook = ''
-            alias cmake='${pkgs.cmake}/bin/cmake -DCMAKE_TOOLCHAIN_FILE=${webOS}/share/buildroot/toolchainfile.cmake -DCMAKE_CXX_FLAGS="-I ${webOS}/include/glib-2.0 -I ${webOS}/lib/glib-2.0/include"'
+            alias cmake='${pkgs.cmake}/bin/cmake -DCMAKE_TOOLCHAIN_FILE=${webOS}/share/buildroot/toolchainfile.cmake'
             function webos_cmake_kit {
               mkdir -p .vscode
               echo '${builtins.toJSON [{ name = "webos-toolchain"; toolchainFile = "${webOS}/share/buildroot/toolchainfile.cmake";}]}' > .vscode/cmake-kits.json
