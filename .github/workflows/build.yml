@@ -28,7 +28,7 @@ jobs:
             const machines = [
                 {machine: 'macos-12', os: 'darwin', arch: 'x86_64', name: 'macOS x86_64'},
                 {machine: 'macos-14', os: 'darwin', arch: 'arm64', name: 'macOS ARM64'},
-                {machine: 'debian-arm64-latest', os: 'linux', arch: 'aarch64', name: 'Linux ARM64'}
+                {machine: 'ubuntu-22.04-arm', os: 'linux', arch: 'aarch64', name: 'Linux ARM64'}
             ];
             return machines.filter(machine => machine.name === '${{ github.event.inputs.machine-name }}');
 
