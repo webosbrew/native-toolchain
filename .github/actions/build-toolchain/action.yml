@@ -22,6 +22,27 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    - name: Show OS and architecture
+      shell: bash
+      run: |
+        echo "Operating System: $(uname -s)"
+        echo "OS Release: $(uname -r)"
+        echo "Machine Architecture: $(uname -m)"
+        echo "Full system info:"
+        uname -a
+        echo
+        echo "=== CPU Info ==="
+        if [[ "$RUNNER_OS" == "Linux" ]]; then
+          lscpu
+        elif [[ "$RUNNER_OS" == "macOS" ]]; then
+          sysctl -n machdep.cpu.brand_string
+          sysctl -n hw.optional.arm64 2>/dev/null || echo "Not ARM64"
+        fi
+        echo
+        echo "=== Runner Info ==="
+        echo "RUNNER_OS=$RUNNER_OS"
+        echo "RUNNER_ARCH=$RUNNER_ARCH
+
     - name: Install GCC 12 (Linux)
       if: inputs.os == 'linux'
       shell: bash
