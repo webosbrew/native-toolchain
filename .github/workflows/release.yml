@@ -22,7 +22,7 @@ jobs:
             os: 'darwin'
             arch: 'x86_64'
             name: macOS x86_64
-          - machine: 'macos-13'
+          - machine: 'macos-15'
             os: 'darwin'
             arch: 'arm64'
             name: macOS ARM64
