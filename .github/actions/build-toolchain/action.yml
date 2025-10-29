@@ -41,7 +41,7 @@ runs:
         echo
         echo "=== Runner Info ==="
         echo "RUNNER_OS=$RUNNER_OS"
-        echo "RUNNER_ARCH=$RUNNER_ARCH
+        echo "RUNNER_ARCH=$RUNNER_ARCH"
 
     - name: Install GCC 12 (Linux)
       if: inputs.os == 'linux'
