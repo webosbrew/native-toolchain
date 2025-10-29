@@ -18,11 +18,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - machine: 'macos-12'
+          - machine: 'macos-13'
             os: 'darwin'
             arch: 'x86_64'
             name: macOS x86_64
-          - machine: 'macos-14'
+          - machine: 'macos-14-arm'
             os: 'darwin'
             arch: 'arm64'
             name: macOS ARM64
