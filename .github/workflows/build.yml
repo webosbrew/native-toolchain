@@ -33,7 +33,6 @@ jobs:
                 {machine: 'ubuntu-24.04', os: 'linux', arch: 'x86_64', cc: 'gcc-12', cxx: 'g++-12', name: 'Linux x86_64'}
             ];
             return machines.filter(machine => machine.name === '${{ github.event.inputs.machine-name }}');
-            
   build:
     name: Build for ${{ matrix.name }}
     needs: machine-select
