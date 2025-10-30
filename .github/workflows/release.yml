@@ -22,14 +22,14 @@ jobs:
             os: 'darwin'
             arch: 'x86_64'
             name: macOS x86_64
-            cc: 'gcc-12'
-            cxx: 'g++-12'
+            cc: 'gcc-14'
+            cxx: 'g++-14'
           - machine: 'macos-14'
             os: 'darwin'
             arch: 'arm64'
             name: macOS ARM64
-            cc: 'gcc-12'
-            cxx: 'g++-12'
+            cc: 'gcc-14'
+            cxx: 'g++-14'
           - machine: 'ubuntu-24.04-arm'
             os: 'linux'
             arch: 'aarch64'
