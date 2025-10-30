@@ -9,6 +9,12 @@ inputs:
   arch:
     required: true
     type: string
+  cc:
+    required: true
+    type: string
+  cxx:
+    required: true
+    type: string
   build-type:
     default: Release
     required: true
@@ -76,8 +82,8 @@ runs:
           -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot \
           -DCMAKE_INSTALL_MESSAGE=NEVER
       env:
-        CC: 'gcc-14'
-        CXX: 'g++-14'
+        CC: ${{inputs.cc}}
+        CXX: ${{inputs.cxx}}
         LANG: 'en_US.UTF-8'
 
     - name: Build
@@ -97,10 +103,10 @@ runs:
       run: echo "dist=${{github.workspace}}/build/dist" >> "$GITHUB_OUTPUT"
 
     - name: Upload build logs
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: ${{ failure() && steps.build.conclusion == 'failure' }}
       with:
-        name: build-toolchains-logs-${{ inputs.os }}-${{ inputs.arch }}-${{ github.run_id }}
+        name: build-toolchains-logs-${{ inputs.os }}-${{ inputs.arch }}-${{ inputs.cc }}-${{ github.run_id }}
         path: |
           build/**/*.log
           build/**/*.txt

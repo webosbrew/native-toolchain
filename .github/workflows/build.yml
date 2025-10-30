@@ -27,12 +27,14 @@ jobs:
         with:
           script: |
             const machines = [
-                {machine: 'macos-13', os: 'darwin', arch: 'x86_64', name: 'macOS x86_64'},
-                {machine: 'macos-14', os: 'darwin', arch: 'arm64', name: 'macOS ARM64'},
-                {machine: 'ubuntu-24.04-arm', os: 'linux', arch: 'aarch64', name: 'Linux ARM64'},
-                {machine: 'ubuntu-24.04', os: 'linux', arch: 'x86_64', name: 'Linux x86_64'}
+                {machine: 'macos-13', os: 'darwin', arch: 'x86_64', , cc: 'gcc-12', cxx: 'g++-12', name: 'macOS x86_64'},
+                {machine: 'macos-14', os: 'darwin', arch: 'arm64', , cc: 'gcc-14', cxx: 'g++-14', name: 'macOS ARM64'},
+                {machine: 'ubuntu-24.04-arm', os: 'linux', arch: 'aarch64', , cc: 'gcc-14', cxx: 'g++-14', name: 'Linux ARM64'},
+                {machine: 'ubuntu-24.04', os: 'linux', arch: 'x86_64', , cc: 'gcc-14', cxx: 'g++-14', name: 'Linux x86_64'}
             ];
             return machines.filter(machine => machine.name === '${{ github.event.inputs.machine-name }}');
+            
+
 
   build:
     name: Build for ${{ matrix.name }}
@@ -42,10 +44,10 @@ jobs:
         include: ${{ fromJson(needs.machine-select.outputs.matrix) }}
     runs-on: ${{ matrix.machine }}
     env:
-      ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}.tar.bz2
+      ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}-${{matrix.cc}}.tar.bz2
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Build toolchain
         id: build-toolchain
@@ -54,6 +56,8 @@ jobs:
           machine: ${{ matrix.machine }}
           os: ${{ matrix.os }}
           arch: ${{ matrix.arch }}
+          cc: ${{ matrix.cc }}
+          cxx: ${{ matrix.cxx }}
 
       - name: Make tarball
         run: |
