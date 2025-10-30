@@ -79,6 +79,8 @@ runs:
       shell: bash
       run: |
         cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build-type}} \
+          -DCMAKE_C_COMPILER=${{inputs.cc}} \
+          -DCMAKE_CXX_COMPILER=${{inputs.cxx}} \
           -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot \
           -DCMAKE_INSTALL_MESSAGE=NEVER
       env:
