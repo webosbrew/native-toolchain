@@ -49,12 +49,12 @@ runs:
         echo "RUNNER_OS=$RUNNER_OS"
         echo "RUNNER_ARCH=$RUNNER_ARCH"
 
-    - name: Install GCC 14 (Linux)
+    - name: Install GCC 12 (Linux)
       if: inputs.os == 'linux'
       shell: bash
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y gcc-14 g++-14
+        sudo apt-get install -y gcc-12 g++-12
 
     - name: Install GMake (macOS)
       if: inputs.os == 'darwin'
