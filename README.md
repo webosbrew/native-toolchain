@@ -1,3 +1,6 @@
+[![Build](https://github.com/webosbrew/native-toolchain/actions/workflows/build.yml/badge.svg)](https://github.com/webosbrew/native-toolchain/actions/workflows/build.yml)
+[![Release](https://github.com/webosbrew/native-toolchain/actions/workflows/release.yml/badge.svg)](https://github.com/webosbrew/native-toolchain/actions/workflows/release.yml)
+ 
 # Unofficial Native Toolchain for webOS
 
 Ports, downloads and documents for [unofficial webOS NDK](https://github.com/openlgtv/buildroot-nc4).

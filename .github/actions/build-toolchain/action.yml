@@ -9,6 +9,12 @@ inputs:
   arch:
     required: true
     type: string
+  cc:
+    required: true
+    type: string
+  cxx:
+    required: true
+    type: string
   build-type:
     default: Release
     required: true
@@ -22,6 +28,27 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    - name: Show OS and architecture
+      shell: bash
+      run: |
+        echo "Operating System: $(uname -s)"
+        echo "OS Release: $(uname -r)"
+        echo "Machine Architecture: $(uname -m)"
+        echo "Full system info:"
+        uname -a
+        echo
+        echo "=== CPU Info ==="
+        if [[ "$RUNNER_OS" == "Linux" ]]; then
+          lscpu
+        elif [[ "$RUNNER_OS" == "macOS" ]]; then
+          sysctl -n machdep.cpu.brand_string
+          sysctl -n hw.optional.arm64 2>/dev/null || echo "Not ARM64"
+        fi
+        echo
+        echo "=== Runner Info ==="
+        echo "RUNNER_OS=$RUNNER_OS"
+        echo "RUNNER_ARCH=$RUNNER_ARCH"
+
     - name: Install GCC 12 (Linux)
       if: inputs.os == 'linux'
       shell: bash
@@ -39,12 +66,18 @@ runs:
     - name: Set parallel level (macOS)
       if: inputs.os == 'darwin'
       shell: bash
-      run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(sysctl -n hw.logicalcpu)" >> $GITHUB_ENV
+      run: |
+        echo "CMAKE_BUILD_PARALLEL_LEVEL=$(sysctl -n hw.logicalcpu)" >> $GITHUB_ENV
+        echo "CC=${{inputs.cc}}" >> $GITHUB_ENV
+        echo "CXX=${{inputs.cxx}}" >> $GITHUB_ENV
 
     - name: Set parallel level (Linux)
       if: inputs.os == 'linux'
       shell: bash
-      run: echo "CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)" >> $GITHUB_ENV
+      run: |
+        echo "CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)" >> $GITHUB_ENV
+        echo "CC=${{inputs.cc}}" >> $GITHUB_ENV
+        echo "CXX=${{inputs.cxx}}" >> $GITHUB_ENV
 
     - name: Configure CMake
       shell: bash
@@ -53,8 +86,8 @@ runs:
           -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/dist/arm-webos-linux-gnueabi_sdk-buildroot \
           -DCMAKE_INSTALL_MESSAGE=NEVER
       env:
-        CC: 'gcc-12'
-        CXX: 'g++-12'
+        CC: ${{inputs.cc}}
+        CXX: ${{inputs.cxx}}
         LANG: 'en_US.UTF-8'
 
     - name: Build
@@ -74,10 +107,10 @@ runs:
       run: echo "dist=${{github.workspace}}/build/dist" >> "$GITHUB_OUTPUT"
 
     - name: Upload build logs
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: ${{ failure() && steps.build.conclusion == 'failure' }}
       with:
-        name: build-toolchains-logs-${{ inputs.os }}-${{ inputs.arch }}-${{ github.run_id }}
+        name: build-toolchains-logs-${{ inputs.os }}-${{ inputs.arch }}-${{ inputs.cc }}-${{ github.run_id }}
         path: |
           build/**/*.log
           build/**/*.txt
