@@ -45,7 +45,7 @@ jobs:
 
     runs-on: ${{ matrix.machine }}
     env:
-      ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}-${{matrix.cc}}.tar.bz2
+      ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}.tar.bz2
 
     steps:
       - uses: actions/checkout@v5
