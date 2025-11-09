@@ -67,9 +67,9 @@ cmake --install build # Ensure you have write permission to the prefix you set
 
 Then the toolchain will be installed to the location you want automatically.
 
-[toolchain-linux-x86_64]: https://github.com/openlgtv/buildroot-nc4/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
+[toolchain-linux-x86_64]: https://github.com/openlgtv/buildroot-nc4/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot-x86_64.tar.gz
 
-[toolchain-linux-aarch64]: https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_linux-aarch64.tar.bz2
+[toolchain-linux-aarch64]: https://github.com/openlgtv/buildroot-nc4/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot-aarch64.tar.gz
 
 [toolchain-darwin-x86_64]: https://github.com/webosbrew/native-toolchain/releases/latest/download/arm-webos-linux-gnueabi_sdk-buildroot_darwin-x86_64.tar.bz2
 
