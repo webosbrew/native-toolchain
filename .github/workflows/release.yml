@@ -18,13 +18,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - machine: 'macos-13'
+          - machine: 'macos-15-intel'
             os: 'darwin'
             arch: 'x86_64'
             name: macOS x86_64
             cc: 'gcc-14'
             cxx: 'g++-14'
-          - machine: 'macos-14'
+          - machine: 'macos-15'
             os: 'darwin'
             arch: 'arm64'
             name: macOS ARM64
@@ -45,7 +45,7 @@ jobs:
 
     runs-on: ${{ matrix.machine }}
     env:
-      ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}-${{matrix.cc}}.tar.bz2
+      ARTIFACT_NAME: arm-webos-linux-gnueabi_sdk-buildroot_${{matrix.os}}-${{matrix.arch}}.tar.bz2
 
     steps:
       - uses: actions/checkout@v5
